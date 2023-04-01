@@ -23,15 +23,15 @@ Tested with Cemu 2.0-31 and Breath of the Wild v1.5.0 DLC Ver.3.0 (**Support for
 ## Controls:
 ```
 USAGE:
-F2 / RT + B		                    Activation
-WASD + Arrow keys / Sticks		    Camera movement
-Q - E / RT - LT		                Camera's height
-F5 - F6 / Up - Down			        Fov control
-PgUp - PgDown / RB - LB	            Rotation (R1 + L1 resets the rotation)
-F3 - F4 / dpad left - dpad right	Change movement speed
-Shift / A				            Accelerates temporarily
-Tab / X	                    		Decelerate temporarily
-F7					                Unlock the character (Locks the camera)
+F2 / RT + B                         Activation
+WASD + Arrow keys / Sticks          Camera movement
+Q - E / RT - LT                     Camera's height
+F5 - F6 / Up - Down                 Fov control
+PgUp - PgDown / RB - LB             Rotation (R1 + L1 resets the rotation)
+F3 - F4 / dpad left - dpad right    Change movement speed
+Shift / A                           Accelerates temporarily
+Tab / X                             Decelerate temporarily
+F7                                  Unlock the character (Locks the camera)
 ----- Sequence keys -----
 F8					Breaks a current sequence playing
 F9					Add a point to the sequence

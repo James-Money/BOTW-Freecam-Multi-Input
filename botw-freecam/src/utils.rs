@@ -8,14 +8,15 @@ const MINIMUM_ENGINE_SPEED: f32 = 1e-3;
 
 pub const INSTRUCTIONS: &str = "------------------------------
 USAGE:
-F2 / L2 + Circle / RT + B\t\tActivation
+Intended for simultaneous use of a SDL Controller and an Xinput Controller 
+F2 / LT + B\t\t\t\tActivation
 WASD + Arrow keys / Sticks\t\tCamera movement
-Q - E / R2 - L2 / RT - LT\t\tCamera's height
+Q - E / RT - LT\t\t\t\tCamera's height
 F5 - F6 / Up - Down\t\t\tFov control
-PgUp - PgDown / R1 - L1 / RB - LB\tRotation
+PgUp - PgDown / RB - LB\t\t\tRotation
 F3 - F4 / dpad left - dpad right\tChange movement speed
-Shift / X / A\t\t\t\tAccelerates temporarily
-Tab / Circle / B\t\t\tDecelerate temporarily
+Shift / A\t\t\t\tAccelerates temporarily
+Tab / B\t\t\t\t\tDecelerate temporarily
 F7\t\t\t\t\tUnlock the character (Locks the camera)
 ----- Sequence keys -----
 F8\t\t\t\t\tBreaks a current sequence playing
@@ -35,7 +36,7 @@ pub fn get_version() -> String {
     let cargo = CARGO_VERSION.unwrap_or("Unknown");
     let git = GIT_VERSION.unwrap_or("Unknown");
 
-    return format!("{}.{}", cargo, git);
+    return format!("{}.{}M", cargo, git);
 }
 
 /// Keys that aren't contained in the VirtualKeys from the Windows API.

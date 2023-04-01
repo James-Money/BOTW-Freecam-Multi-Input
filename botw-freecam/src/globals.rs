@@ -8,5 +8,5 @@ memory_rs::scoped_no_mangle! {
 
 extern "C" {
     pub static asm_get_camera_data: u8;
-    pub static asm_override_xinput_call: u8;
+    //pub static asm_override_xinput_call: u8;
 }

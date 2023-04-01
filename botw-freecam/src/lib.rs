@@ -1,7 +1,7 @@
 use memory_rs::internal::{
     injections::{Detour, Inject, Injection},
     memory::resolve_module_path,
-    process_info::ProcessInfo,
+    //process_info::ProcessInfo,
 };
 use std::ffi::CString;
 use winapi::um::consoleapi::AllocConsole;
@@ -135,33 +135,33 @@ fn get_camera_function() -> Result<CameraOffsets, Box<dyn std::error::Error>> {
     })
 }
 
-fn block_xinput(proc_inf: &ProcessInfo) -> Result<Detour, Box<dyn std::error::Error>> {
-    // Find input blocker for xinput only
+// fn block_xinput(proc_inf: &ProcessInfo) -> Result<Detour, Box<dyn std::error::Error>> {
+//     // Find input blocker for xinput only
 
-    let function_addr = proc_inf.region.scan_aob(&memory_rs::generate_aob_pattern![
-        0x48, 0x8B, 0x40, 0x28, 0x48, 0x8D, 0x55, 0xE7, 0x8B, 0x8F, 0x50, 0x01, 0x00, 0x00
-    ])?
-    .ok_or("XInput blocker couldn't be found")?;
+//     let function_addr = proc_inf.region.scan_aob(&memory_rs::generate_aob_pattern![
+//         0x48, 0x8B, 0x40, 0x28, 0x48, 0x8D, 0x55, 0xE7, 0x8B, 0x8F, 0x50, 0x01, 0x00, 0x00
+//     ])?
+//     .ok_or("XInput blocker couldn't be found")?;
 
-    // HACK: read interceptor.asm
-    let injection = unsafe {
-        Detour::new(function_addr, 14, &asm_override_xinput_call as *const _ as usize, Some(&mut g_xinput_override))
-    };
+//     // HACK: read interceptor.asm
+//     let injection = unsafe {
+//         Detour::new(function_addr, 14, &asm_override_xinput_call as *const _ as usize, Some(&mut g_xinput_override))
+//     };
 
-    println!("{:x?}", unsafe { &asm_override_xinput_call as *const _ as usize });
+//     println!("{:x?}", unsafe { &asm_override_xinput_call as *const _ as usize });
 
-    Ok(injection)
-}
+//     Ok(injection)
+// }
 
 fn patch(_lib: LPVOID) -> Result<(), Box<dyn std::error::Error>> {
     info!(
         "Breath of the Wild freecam by @etra0, v{}",
-        utils::get_version()
+        utils::get_version(),
     );
     write_red("If you close this window the game will close. Use HOME to deattach the freecamera (will close this window as well).")?;
     println!("{}", utils::INSTRUCTIONS);
     write_red("Controller input will only be detected if Xinput is used in the Control settings, otherwise use the keyboard.")?;
-    let proc_inf = ProcessInfo::new(None)?;
+    // let proc_inf = ProcessInfo::new(None)?;
 
     let mut input = Input::new();
 
@@ -177,7 +177,7 @@ fn patch(_lib: LPVOID) -> Result<(), Box<dyn std::error::Error>> {
     let camera_pointer = camera_struct.camera;
     info!("Camera function camera_pointer: {:x}", camera_pointer);
 
-    block_xinput(&proc_inf)?;
+    //block_xinput(&proc_inf)?;
 
     let mut cam = unsafe {
         Detour::new(
@@ -205,7 +205,7 @@ fn patch(_lib: LPVOID) -> Result<(), Box<dyn std::error::Error>> {
         Box::new(Injection::new(camera_struct.rotation_vec1, vec![0x90; 7])),
         Box::new(Injection::new(camera_struct.rotation_vec1 + 0x14, vec![0x90; 7])),
         Box::new(Injection::new(camera_struct.rotation_vec1 + 0x28, vec![0x90; 7])),
-        Box::new(block_xinput(&proc_inf)?),
+        //Box::new(block_xinput(&proc_inf)?),
     ];
 
     cam.inject();

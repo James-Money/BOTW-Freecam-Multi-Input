@@ -3,7 +3,7 @@ use nalgebra_glm as glm;
 use std::ffi::CString;
 use winapi::um::{winuser, xinput};
 
-const DEADZONE: i16 = 10000;
+const DEADZONE: i16 = 10; //10000 or 500 are good options as well
 const MINIMUM_ENGINE_SPEED: f32 = 1e-3;
 
 pub const INSTRUCTIONS: &str = "------------------------------
@@ -180,10 +180,10 @@ pub fn handle_keyboard(input: &mut Input) {
             [winuser::VK_F5, winuser::VK_F6, input.fov -= 0.02, input.fov += 0.02];
 
             [winuser::VK_F3, winuser::VK_F4, input.speed_multiplier -= 0.01, input.speed_multiplier += 0.01];
-
+            
         }
     }
-
+    
     if check_key_press(Keys::P as _) {
         input.dolly_duration += input.dolly_increment;
         input.dolly_increment *= 1.01;
@@ -283,14 +283,15 @@ pub fn handle_controller(input: &mut Input, func: fn(u32, &mut xinput::XINPUT_ST
             }
         };
     }
-
+    
     input.delta_pos.0 =
-        -(dead_zone!(gp.sThumbLX) as f32) / ((i16::MAX as f32) * 1e2) * input.speed_multiplier;
+        -(dead_zone!(gp.sThumbLX) as f32) / ((i16::MAX as f32) * 0.5e2) * input.speed_multiplier; //0.05, last one was 0.005
     input.delta_pos.1 =
-        (dead_zone!(gp.sThumbLY) as f32) / ((i16::MAX as f32) * 1e2) * input.speed_multiplier;
-
-    input.delta_focus.0 = (dead_zone!(gp.sThumbRX) as f32) / ((i16::MAX as f32) * 4e1);
-    input.delta_focus.1 = -(dead_zone!(gp.sThumbRY) as f32) / ((i16::MAX as f32) * 4e1);
+        (dead_zone!(gp.sThumbLY) as f32) / ((i16::MAX as f32) * 0.5e2) * input.speed_multiplier;
+    
+    input.delta_focus.0 = (dead_zone!(gp.sThumbRX) as f32) / ((i16::MAX as f32) * 0.5e2);
+    input.delta_focus.1 = -(dead_zone!(gp.sThumbRY) as f32) / ((i16::MAX as f32) * 0.5e2);
+    
 
     input.delta_altitude *= input.speed_multiplier;
 
